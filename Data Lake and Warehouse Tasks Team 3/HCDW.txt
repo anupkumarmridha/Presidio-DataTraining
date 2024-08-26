@@ -1,0 +1,174 @@
+1. Fact Tables
+a. PatientAdmissionsFact
+
+This table captures patient admission details, optimized for performance through partitioning and indexing.
+
+    AdmissionID (Primary Key, Clustered Index)
+    PatientID (Foreign Key to Patients Dimension, Indexed)
+    PhysicianID (Foreign Key to Physicians Dimension, Indexed)
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    AdmissionDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    DischargeDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    LengthOfStay (Pre-calculated during ETL)
+    AdmissionType (Indexed)
+    AdmissionReason
+    DischargeStatus (Indexed)
+
+
+Partitioning: Partition by AdmissionDateID and DischargeDateID to optimize query performance for date-based analyses.
+Pre-calculation: Calculate LengthOfStay during ETL to avoid runtime calculations.
+
+b. TreatmentOutcomesFact
+
+Tracks treatment outcomes, with optimizations for fast retrieval and aggregation.
+
+    OutcomeID (Primary Key, Clustered Index)
+    PatientID (Foreign Key to Patients Dimension, Indexed)
+    PhysicianID (Foreign Key to Physicians Dimension, Indexed)
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    TreatmentDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    TreatmentType (Indexed)
+    OutcomeStatus (Indexed, e.g., Improved, Stable, Deteriorated)
+    FollowUpDateID (Foreign Key to Time Dimension)
+    ReadmissionWithin30Days (Yes/No, Indexed)
+
+
+Partitioning: Partition by TreatmentDateID to improve query performance related to treatment timelines.
+Indexes: Index columns frequently used in filters or joins, such as OutcomeStatus and ReadmissionWithin30Days.
+
+1. Fact Tables
+a. PatientAdmissionsFact
+
+This table captures patient admission details, optimized for performance through partitioning and indexing.
+
+    AdmissionID (Primary Key, Clustered Index)
+    PatientID (Foreign Key to Patients Dimension, Indexed)
+    PhysicianID (Foreign Key to Physicians Dimension, Indexed)
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    AdmissionDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    DischargeDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    LengthOfStay (Pre-calculated during ETL)
+    AdmissionType (Indexed)
+    AdmissionReason
+    DischargeStatus (Indexed)
+
+
+Partitioning: Partition by AdmissionDateID and DischargeDateID to optimize query performance for date-based analyses.
+Pre-calculation: Calculate LengthOfStay during ETL to avoid runtime calculations.
+
+b. TreatmentOutcomesFact
+
+Tracks treatment outcomes, with optimizations for fast retrieval and aggregation.
+
+    OutcomeID (Primary Key, Clustered Index)
+    PatientID (Foreign Key to Patients Dimension, Indexed)
+    PhysicianID (Foreign Key to Physicians Dimension, Indexed)
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    TreatmentDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    TreatmentType (Indexed)
+    OutcomeStatus (Indexed, e.g., Improved, Stable, Deteriorated)
+    FollowUpDateID (Foreign Key to Time Dimension)
+    ReadmissionWithin30Days (Yes/No, Indexed)
+
+Partitioning: Partition by TreatmentDateID to improve query performance related to treatment timelines.
+Indexes: Index columns frequently used in filters or joins, such as OutcomeStatus and ReadmissionWithin30Days.
+
+c. ResourceUtilizationFact
+
+Details resource usage, optimized for aggregation and cost analysis.
+
+    ResourceUsageID (Primary Key, Clustered Index)
+    PatientID (Foreign Key to Patients Dimension, Indexed)
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    ResourceID (Foreign Key to Resources Dimension, Indexed)
+    UsageDateID (Foreign Key to Time Dimension, Partitioned by Year-Month)
+    QuantityUsed
+    Cost (Pre-calculated total cost, Indexed)
+
+
+Partitioning: Partition by UsageDateID for efficient time-based queries.
+Pre-calculation: Calculate the total cost during ETL to avoid runtime calculations.
+
+
+<---------------------------------------------------->
+2. Dimension Tables
+a. PatientsDimension
+
+Stores patient information, with surrogate keys and indexing for performance.
+
+    PatientID (Surrogate Key, Primary Key, Clustered Index)
+    PatientNaturalKey (Business Key, Indexed)
+    Name
+    Gender
+    DateOfBirth
+    Address
+    City
+    State
+    ZipCode
+    InsuranceProvider
+    MaritalStatus
+    Ethnicity
+
+Surrogate Key: Use a surrogate key (PatientID) for faster joins and to handle changes in patient identifiers.
+Indexing: Index PatientNaturalKey for faster lookups.
+
+
+b. PhysiciansDimension
+
+Contains physician details, optimized for query performance.
+
+    PhysicianID (Surrogate Key, Primary Key, Clustered Index)
+    PhysicianNaturalKey (Business Key, Indexed)
+    Name
+    Specialization (Indexed)
+    Gender
+    YearsOfExperience
+    DepartmentID (Foreign Key to Departments Dimension, Indexed)
+    ContactDetails
+
+
+
+Surrogate Key: Use a surrogate key (PhysicianID) for efficient joins.
+Indexing: Index Specialization to optimize queries filtering by physician specialty.
+
+c. DepartmentsDimension
+
+Details department information, optimized for performance.
+
+    DepartmentID (Surrogate Key, Primary Key, Clustered Index)
+    DepartmentName (Indexed)
+    HeadOfDepartment
+    Location
+
+Indexing: Index DepartmentName for quick lookups and filtering.
+
+
+d. TimeDimension
+
+Captures date and time details, optimized for temporal analysis.
+
+    DateID (Surrogate Key, Primary Key, Clustered Index)
+    Date (Indexed)
+    DayOfWeek
+    Month
+    Quarter
+    Year
+    IsWeekend (Indexed)
+
+
+Indexing: Index Date for efficient time-based queries.
+Pre-Aggregation: Pre-calculate commonly used time periods (e.g., month, quarter) to optimize reporting.
+
+e. ResourcesDimension
+
+Manages resource details, optimized for cost analysis.
+
+    ResourceID (Surrogate Key, Primary Key, Clustered Index)
+    ResourceName (Indexed)
+    ResourceType (Indexed)
+    Supplier
+    CostPerUnit
+
+
+Indexing: Index ResourceName and ResourceType for faster queries on resource usage.
+
