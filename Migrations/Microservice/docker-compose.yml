@@ -7,15 +7,17 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
-      - JWT_SECRET=your_jwt_secret
-
+      - JWT_SECRET=mySuperSecretJWTKeyForAuthService
+      - AUTH_SERVICE_SECRET=superSecretAuthServiceKey
   blog-service:
     build: ./blog-service
     ports:
       - "5001:5001"
     environment:
       - MONGO_URI=mongodb://mongo:27017/blogdb
-      - JWT_SECRET=your_jwt_secret
+      - JWT_SECRET=mySuperSecretJWTKeyForAuthService
+      - AUTH_SERVICE_URL=http://auth-service:5000  
+      - AUTH_SERVICE_SECRET=superSecretAuthServiceKey
 
   notification-service:
     build: ./notification-service
@@ -23,9 +25,15 @@ services:
       - "5002:5002"
     environment:
       - MONGO_URI=mongodb://mongo:27017/notificationdb
-      - JWT_SECRET=your_jwt_secret
+      - JWT_SECRET=mySuperSecretJWTKeyForNotificationService
+      - AUTH_SERVICE_SECRET=superSecretAuthServiceKey
 
   mongo:
     image: mongo:latest
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db 
+
+volumes:
+  mongo-data:

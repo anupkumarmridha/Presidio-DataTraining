@@ -20,6 +20,19 @@ class AuthController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async getUserById(req, res) {
+    try {
+      const user = await AuthService.getUserById(req.params.id);
+      res.status(200).json(user);
+    } catch (error) {
+      if (error.message === 'User not found') {
+        res.status(404).json({ message: error.message }); // Specific handling for user not found
+      } else {
+        res.status(500).json({ message: 'Internal Server Error' }); // General server error
+      }
+    }
+  }
 }
 
 export default new AuthController();

@@ -28,6 +28,23 @@ class AuthService {
     const token = generateToken(user);
     return { user, token };
   }
+
+  //get user details by ID
+  async getUserById(userId) {
+    try {
+      const userIdStr = userId.toString();
+      const user = await User.findById(userIdStr).select('-password');
+      
+      if (!user) {
+        throw new Error('User not found');
+      }
+      
+      return user;
+    } catch (error) {
+      console.error('Error in getUserById:', error);
+      throw error;
+    }
+  }
 }
 
 export default new AuthService();

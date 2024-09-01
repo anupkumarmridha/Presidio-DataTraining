@@ -1,4 +1,3 @@
-// src/controllers/BlogController.js
 import BlogService from '../services/BlogService.js';
 
 class BlogController {
