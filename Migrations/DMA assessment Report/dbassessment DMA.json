@@ -1,0 +1,100 @@
+{
+  "Name": "test",
+  "Databases": [
+    {
+      "Status": "Completed",
+      "AssessmentRecommendations": [
+        {
+          "CompatibilityLevel": "CompatLevel160",
+          "Category": "Compatibility",
+          "Severity": "Warning",
+          "ChangeCategory": "BreakingChange",
+          "RuleId": "ServiceBroker",
+          "Title": "Service Broker feature is not supported in Azure SQL Database",
+          "Impact": "SQL Server Service Broker provides native support for messaging and queuing applications in the SQL Server Database Engine. Service Broker feature is not supported in Azure SQL Database.",
+          "Recommendation": "Service Broker feature is not supported in Azure SQL Database. Consider migrating to Azure SQL Managed Instance that supports service broker within the same instance. Alternatively, migrate to SQL Server on Azure Virtual Machine.",
+          "MoreInfo": "()",
+          "ImpactedObjects": [
+            {
+              "Name": "CapstoneProjectDb",
+              "ObjectType": "Database",
+              "ImpactDetail": "",
+              "SuggestedFixes": []
+            }
+          ]
+        }
+      ],
+      "Name": "CapstoneProjectDb",
+      "SizeMB": 16.0,
+      "ServerVersion": "16.0.1121.4",
+      "ServerEdition": "Express Edition (64-bit)",
+      "CompatibilityLevel": "CompatLevel160",
+      "ServerName": "7TXBBX3\\SQLEXPRESS"
+    }
+  ],
+  "ServerInstances": [
+    {
+      "ServerName": "7TXBBX3\\SQLEXPRESS",
+      "Version": "16.0.1121.4",
+      "Status": "Completed",
+      "AssessmentRecommendations": [
+        {
+          "Category": "FeatureParity",
+          "Severity": "Information",
+          "FeatureParityCategory": "UnsupportedFeature",
+          "RuleId": "TraceFlags",
+          "Title": "Azure SQL Database does not support trace flags",
+          "Impact": "Trace flags are used to temporarily set specific server characteristics or to switch off a particular behavior.  Trace flags are frequently used to diagnose performance issues or to debug stored procedures or complex computer systems. Azure SQL Database does not support trace flags.",
+          "Recommendation": "Review impacted objects section to see all trace flags that are not supported in Azure SQL Database and evaluate if they can be removed. Alternatively, migrate to Azure SQL Managed Instance which supports limited number of global trace flags or SQL Server on Azure Virtual Machine.",
+          "MoreInfo": "Resolving Transact-SQL differences during migration to SQL Database (https://docs.microsoft.com/en-us/azure/azure-sql/database/transact-sql-tsql-differences-sql-server#transact-sql-syntax-not-supported-in-azure-sql-database)",
+          "ImpactedObjects": [
+            {
+              "Name": "8017",
+              "ObjectType": "Trace flag",
+              "ImpactDetail": "",
+              "SuggestedFixes": []
+            }
+          ]
+        },
+        {
+          "Category": "FeatureParity",
+          "Severity": "Information",
+          "FeatureParityCategory": "UnsupportedFeature",
+          "RuleId": "WindowsPrincipals",
+          "Title": "Database users mapped with Windows authentication (integrated security) are not supported in Azure SQL Database.",
+          "Impact": "Azure SQL Database  supports two types of authentication 1) SQL Authentication, which uses a username and password 2) Azure Active Directory Authentication, which uses identities managed by Azure Active Directory and is supported for managed and integrated domains. Database users mapped with Windows authentication (integrated security) are not supported in Azure SQL Database.",
+          "Recommendation": "Federate the local Active Directory with Azure Active Directory. The Windows identity can then be replaced with the equivalent Azure Active Directory identities. Alternatively, migrate to SQL Server on Azure Virtual Machine.",
+          "MoreInfo": "An overview of Azure SQL Database and SQL Managed Instance security capabilities (https://docs.microsoft.com/en-us/azure/azure-sql/database/security-overview#authentication)",
+          "ImpactedObjects": []
+        },
+        {
+          "Category": "FeatureParity",
+          "Severity": "Warning",
+          "FeatureParityCategory": "UnsupportedFeature",
+          "RuleId": "ServiceBroker",
+          "Title": "Service Broker feature is not supported in Azure SQL Database",
+          "Impact": "SQL Server Service Broker provides native support for messaging and queuing applications in the SQL Server Database Engine. Service Broker feature is not supported in Azure SQL Database.",
+          "Recommendation": "Service Broker feature is not supported in Azure SQL Database. Consider migrating to Azure SQL Managed Instance that supports service broker within the same instance. Alternatively, migrate to SQL Server on Azure Virtual Machine.",
+          "MoreInfo": "()",
+          "ImpactedObjects": [
+            {
+              "Name": "CapstoneProjectDb",
+              "ObjectType": "Databases",
+              "ImpactDetail": null,
+              "SuggestedFixes": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "SourcePlatform": "SqlOnPrem",
+  "Status": "Completed",
+  "StartedOn": "2024-09-02T09:33:58.798407+00:00",
+  "EndedOn": "2024-09-02T09:34:06.1728903+00:00",
+  "EvaluateFeatureRecommendations": false,
+  "EvaluateCompatibilityIssues": true,
+  "EvaluateFeatureParity": true,
+  "TargetPlatform": "AzureSqlDatabase",
+  "DmaVersion": {}
+}
